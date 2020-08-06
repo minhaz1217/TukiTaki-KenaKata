@@ -32,7 +32,7 @@ namespace TukiTaki_KenaKata.presentation
                     Console.ReadKey();
                     break;
                 }
-                else
+                
                 {
                     ProductView productsView = new ProductView();
                     WishView wishView= new WishView();

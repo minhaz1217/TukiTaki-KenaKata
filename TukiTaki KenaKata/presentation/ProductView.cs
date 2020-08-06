@@ -24,16 +24,19 @@ namespace TukiTaki_KenaKata.presentation
         }
         public void ViewSingleProduct()
         {
-            Console.WriteLine( "Enter the product id you want to see: " );
-            Console.WriteLine( "Enter -1 to go back: " );
-            int productId = Helper.ReadSafeInt();
-            if(productId == -1)
+            Console.WriteLine("Enter the product id that you want to see(-1 to go  back): ");
+            string choice = Console.ReadLine().Trim();
+            int ch = 0; ;
+            int.TryParse(choice, out ch);
+            if (ch == 0)
             {
-                return;
+
+                Product product = this.productService.GetSingleProduct(choice);
+                Console.WriteLine(product.ToString());
             }
             else
             {
-                this.productService.GetSingleProduct(productId);
+                return;
             }
         }
         public void CreateProduct()
@@ -49,29 +52,66 @@ namespace TukiTaki_KenaKata.presentation
         }
         public void UpdateProduct()
         {
-            Console.WriteLine("Enter the product id that you want to edit: ");
-            int productId = Helper.ReadSafeInt();
-            if (this.productService.ProductExists(productId))
-            {
-                Product product = this.productService.GetSingleProduct(productId);
-                Console.WriteLine(product.ToString());
-            }
-            else
-            {
-                Console.WriteLine("Product Doesn't Exist.");
-            }
-        }
-        public void DeleteProduct()
-        {
-            Console.WriteLine("Enter the product id that you want to delete(-1 to go  back): ");
-            int productId = Helper.ReadSafeInt();
-            if(productId < 0)
+            // TODO: work on update product
+            Console.WriteLine("1. Change Product Name");
+            Console.WriteLine("2. Change Product Description");
+            Console.WriteLine("3. Change Product Price");
+            Console.WriteLine("-1 to go back");
+            int choice = Helper.ReadSafeInt();
+            if(choice <0)
             {
                 return;
             }
             else
             {
-                this.productService.DeleteProduct(productId);
+                this.ShowAllProductsView();
+                Console.WriteLine("Enter the product id: ");
+                string choiceString = Console.ReadLine().Trim();
+                if (productService.ProductExists(choiceString))
+                {
+
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine("Enter product name: ");
+                            string name = Console.ReadLine().Trim();
+                            productService.ChangeProductName(choiceString, name);
+                            break;
+                        case 2:
+                            Console.WriteLine("Enter product Description: ");
+                            string description = Console.ReadLine().Trim();
+                            productService.ChangeProductDescription(choiceString, description);
+                            break;
+                        case 3:
+                            Console.WriteLine("Enter product price: ");
+                            double price = Helper.ReadSafeDouble();
+                            productService.ChangeProductPrice(choiceString, price);
+                            break;
+                        default:
+                            return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input");
+                }
+            }
+        }
+        public void DeleteProduct()
+        {
+            this.ShowAllProductsView();
+            Console.WriteLine("Enter the product id that you want to delete(-1 to go  back): ");
+            string choice = Console.ReadLine().Trim();
+            int ch = 0; ;
+            int.TryParse(choice, out ch);
+            if(ch == 0)
+            {
+
+                this.productService.DeleteProduct(choice);
+            }
+            else
+            {
+                return;
             }
         }
         

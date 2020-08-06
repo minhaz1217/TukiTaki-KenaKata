@@ -8,6 +8,6 @@ namespace TukiTaki_KenaKata.persistant
     interface IDBController
     {
         List<Product> GetAllProduct();
-        Product GetSingleProduct(int productId);
+        Product GetSingleProduct(Guid productId);
     }
 }

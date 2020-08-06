@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj": {}
+    "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj": {
+    "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj",
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj",
         "projectName": "TukiTaki KenaKata",
-        "projectPath": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj",
+        "projectPath": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata\\TukiTaki KenaKata.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\obj\\",
+        "outputPath": "C:\\Users\\User\\source\\repos\\TukiTaki KenaKata\\TukiTaki KenaKata\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp2.1": {
           "dependencies": {
+            "CassandraCSharpDriver": {
+              "target": "Package",
+              "version": "[3.15.1, )"
+            },
             "Microsoft.NETCore.App": {
               "target": "Package",
               "version": "[2.1.0, )",

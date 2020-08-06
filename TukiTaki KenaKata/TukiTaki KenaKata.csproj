@@ -6,4 +6,8 @@
     <RootNamespace>TukiTaki_KenaKata</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CassandraCSharpDriver" Version="3.15.1" />
+  </ItemGroup>
+
 </Project>

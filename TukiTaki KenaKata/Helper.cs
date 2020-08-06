@@ -38,5 +38,17 @@ namespace TukiTaki_KenaKata
                 throw new DataMisalignedException("Format doesn't match");
             }
         }
+        static public Guid SafeGuidParse(string choice)
+        {
+            Guid productId;
+            if(Guid.TryParse(choice, out productId))
+            {
+                return productId;
+            }
+            else
+            {
+                return new Guid();
+            }
+        }
     }
 }

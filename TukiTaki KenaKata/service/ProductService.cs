@@ -21,31 +21,95 @@ namespace TukiTaki_KenaKata.service
             return db.GetAllProduct();
         }
 
-        public Product GetSingleProduct(int productId)
+        public Product GetSingleProduct(string productId)
         {
-            return this.db.GetSingleProduct(productId);
+            Guid id = Helper.SafeGuidParse(productId);
+            if (id == new Guid())
+            {
+                Console.WriteLine("Invalid Product id");
+                return null;
+            }
+            else
+            {
+                return this.db.GetSingleProduct(id);
+            }
         }
         public bool CreateProduct(string name, string description, double price)
         {
             return this.db.CreateProduct(name, description, price);
         }
-
-        public bool ProductExists(int productId)
+        public bool ChangeProductName(string idString, string name)
         {
-            Product product = this.db.GetSingleProduct(productId);
-            if(product == null)
+            Guid productId = Helper.SafeGuidParse(idString);
+            if (productId == new Guid())
             {
+                Console.WriteLine("Invalid Product id");
                 return false;
             }
             else
             {
-                return true;
+                return this.db.ChangeProductName(productId, name);
             }
-            //return this.db.GetSingleProduct(productId)
         }
-        public bool DeleteProduct(int productId)
+        public bool ChangeProductDescription(string idString, string description)
         {
-            return this.db.DeleteProduct(productId);
+            Guid productId = Helper.SafeGuidParse(idString);
+            if (productId == new Guid())
+            {
+                Console.WriteLine("Invalid Product id");
+                return false;
+            }
+            else
+            {
+                return this.db.ChangeProductDescription(productId, description);
+            }
+        }
+
+        public bool ChangeProductPrice(string idString, double price)
+        {
+            Guid productId = Helper.SafeGuidParse(idString);
+            if (productId == new Guid())
+            {
+                Console.WriteLine("Invalid Product id");
+                return false;
+            }
+            else
+            {
+                return this.db.ChangeProductPrice(productId, price);
+            }
+        }
+        public bool ProductExists(string idString)
+        {
+            Guid productId = Helper.SafeGuidParse(idString);
+            if (productId == new Guid())
+            {
+                Console.WriteLine("Invalid Product id");
+                return false;
+            }
+            else
+            {
+                if (this.db.CheckProductCount(productId) > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool DeleteProduct(string productId)
+        {
+            Guid id = Helper.SafeGuidParse(productId);
+            if (id == new Guid())
+            {
+                Console.WriteLine("Invalid Product id");
+                return false;
+            }
+            else
+            {
+                return this.db.DeleteProduct(id);
+            }
         }
     }
 }

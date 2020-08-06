@@ -11,19 +11,23 @@ namespace TukiTaki_KenaKata.model
     }
     class Wish
     {
-        int id { get; set; }
+        Guid id { get; set; }
         string name { get; set; }
         WishType wishType { get; set; }
         List<Product> items { get; set; }
         List<Wish> wishes { get; set; }
-        public Wish(int id, string name, WishType wishType, List<Product> items)
+        public Wish()
+        {
+
+        }
+        public Wish(Guid id, string name, WishType wishType, List<Product> items)
         {
             this.id = id;
             this.name = name;
             this.wishType = wishType;
             this.items = items;
         }
-        public Wish(int id, string name, WishType wishType, List<Wish> wishes)
+        public Wish(Guid id, string name, WishType wishType, List<Wish> wishes)
         {
             this.id = id;
             this.name = name;

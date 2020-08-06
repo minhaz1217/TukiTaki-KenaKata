@@ -9,3 +9,14 @@ C:\Users\User\source\repos\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki Ke
 C:\Users\User\source\repos\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.AssemblyInfo.cs
 C:\Users\User\source\repos\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.dll
 C:\Users\User\source\repos\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.pdb
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\bin\Debug\netcoreapp2.1\TukiTaki KenaKata.deps.json
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\bin\Debug\netcoreapp2.1\TukiTaki KenaKata.runtimeconfig.json
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\bin\Debug\netcoreapp2.1\TukiTaki KenaKata.runtimeconfig.dev.json
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\bin\Debug\netcoreapp2.1\TukiTaki KenaKata.dll
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\bin\Debug\netcoreapp2.1\TukiTaki KenaKata.pdb
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.csprojAssemblyReference.cache
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.AssemblyInfo.cs
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.dll
+C:\Users\User\source\repos\TukiTaki KenaKata\TukiTaki KenaKata\obj\Debug\netcoreapp2.1\TukiTaki KenaKata.pdb
