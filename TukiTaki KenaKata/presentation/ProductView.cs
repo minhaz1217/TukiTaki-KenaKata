@@ -116,7 +116,6 @@ namespace TukiTaki_KenaKata.presentation
             int.TryParse(choice, out ch);
             if(ch == 0)
             {
-
                 this.productService.DeleteProduct(choice);
             }
             else

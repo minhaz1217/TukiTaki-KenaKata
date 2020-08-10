@@ -1,6 +1,7 @@
 ﻿using Cassandra;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using TukiTaki_KenaKata.model;
 
@@ -9,8 +10,8 @@ namespace TukiTaki_KenaKata.persistant
     class DBRepository : IDBRepository
     {
         private static DBRepository instance = null;
-        private const string SERVER_NAME = "localhost";
-        private const string KEYSPACE_NAME = "tukitaki_kenakata";
+        private static string SERVER_NAME;
+        private static string KEYSPACE_NAME;
         private static Cluster cluster=null;
         private static Session session=null;
 
@@ -25,6 +26,8 @@ namespace TukiTaki_KenaKata.persistant
             if(instance == null)
             {
                 instance = new DBRepository();
+                SERVER_NAME = ConfigurationManager.AppSettings.Get("CASSANDRA_SERVER_NAME");
+                KEYSPACE_NAME = ConfigurationManager.AppSettings.Get("CASSANDRA_KEYSPACE_NAME");
                 if (cluster == null)
                 {
                     cluster = (Cluster)Cluster.Builder().AddContactPoints(SERVER_NAME).Build();
