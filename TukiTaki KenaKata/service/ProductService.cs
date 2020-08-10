@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TukiTaki_KenaKata.model;
@@ -6,27 +7,32 @@ using TukiTaki_KenaKata.persistant;
 
 namespace TukiTaki_KenaKata.service
 {
-    class ProductService
+    class ProductService : IProductService
     {
 
-        DBController db;
+        IDBRepository db = null;
 
         public ProductService()
         {
-            this.db = new DBController();
+            using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
+            {
+                db = scope.Resolve<IDBRepository>();
+            }
         }
 
         public List<Product> GetAllProduct()
         {
+            // TODO: use linq
             return db.GetAllProduct();
         }
 
         public Product GetSingleProduct(string productId)
         {
             Guid id = Helper.SafeGuidParse(productId);
+
             if (id == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Invalid Product id", "r");
                 return null;
             }
             else
@@ -68,7 +74,12 @@ namespace TukiTaki_KenaKata.service
         public bool ChangeProductPrice(string idString, double price)
         {
             Guid productId = Helper.SafeGuidParse(idString);
-            if (productId == new Guid())
+            if(price < 0)
+            {
+                Helper.MyPrint("Price can't be negative.", "r");
+                return false;
+            }
+            else if (productId == new Guid())
             {
                 Console.WriteLine("Invalid Product id");
                 return false;

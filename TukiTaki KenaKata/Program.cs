@@ -1,31 +1,28 @@
 ﻿using Cassandra;
 using System;
+using System.IO;
+using System.Text;
 using TukiTaki_KenaKata.model;
+using TukiTaki_KenaKata.persistant;
 using TukiTaki_KenaKata.presentation;
-
+using Autofac;
+using System.Configuration;
 namespace TukiTaki_KenaKata
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Home home = new Home();
-            //Cluster cluster = Cluster.Builder().AddContactPoints("localhost").Build();
-            //// Connect to the nodes using a keyspace
-            //Session session = (Session)cluster.Connect("tukitaki_kenakata");
-            ////6582fa38-8d96-4d32-907d-85a8f75a95a4
-            //PreparedStatement ps = session.Prepare("UPDATE product SET name=? WHERE id=?");
-            //BoundStatement statement = ps.Bind("myName", Guid.Parse("6582fa39-8d96-4d32-907d-85a8f75a95a4").ToString());
-            //RowSet rowSet = session.Execute(statement);
-            //Console.WriteLine(session.GetType());
-            //Console.WriteLine(rowSet.GetRows().ToString());
-            //foreach(Row row in rowSet)
-            //{
-            //    Console.WriteLine(new Product(row).ToString());
-            //}
-            ////Console.WriteLine($"Created {x.Columns} {x.GetType()} {x.Info.IsSchemaInAgreement}");
-            //Console.WriteLine("End");
-            //Console.ReadKey();
+            IHome home = null;
+
+            using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
+            {
+                home = scope.Resolve<IHome>();
+            }
+            //DBController db = new DBController();
+            //db.CheckCycle(Helper.SafeGuidParse("6ca697e6-8aa3-4536-8dc0-2ff6a68780ea"), Helper.SafeGuidParse("789cdd37-ecbc-4007-a059-55b2670b72f6"));
+            Console.WriteLine("Hello World\nHI");
+
             home.ShowMainMenu();
         }
     }

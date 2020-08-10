@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
+      "Autofac/5.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Autofac.dll": {}
+        }
+      },
       "CassandraCSharpDriver/3.15.1": {
         "type": "package",
         "dependencies": {
@@ -30,6 +42,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/K4os.Compression.LZ4.dll": {}
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.1": {
@@ -1023,6 +1044,27 @@
     }
   },
   "libraries": {
+    "Autofac/5.2.0": {
+      "sha512": "V8dBH0dsv75uDzl7Sw+HkhKDPUw2eXnlMjcSVMH+tLo2s67MpTKGyDj1pDcpR+IF2u4YRs0s3/x7R88YJzIWvg==",
+      "type": "package",
+      "path": "autofac/5.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofac.5.2.0.nupkg.sha512",
+        "autofac.nuspec",
+        "icon.png",
+        "lib/net461/Autofac.dll",
+        "lib/net461/Autofac.pdb",
+        "lib/net461/Autofac.xml",
+        "lib/netstandard2.0/Autofac.dll",
+        "lib/netstandard2.0/Autofac.pdb",
+        "lib/netstandard2.0/Autofac.xml",
+        "lib/netstandard2.1/Autofac.dll",
+        "lib/netstandard2.1/Autofac.pdb",
+        "lib/netstandard2.1/Autofac.xml"
+      ]
+    },
     "CassandraCSharpDriver/3.15.1": {
       "sha512": "QKFUnMtoz0l10UyMXdfroex5tkeDXL9ngucgvCCrFhuqrTLZ4pm6yQrCcWajqaOAV79ZweP7ogOPt+JLOyDbYA==",
       "type": "package",
@@ -1055,6 +1097,30 @@
         "lib/netstandard1.6/K4os.Compression.LZ4.xml",
         "lib/netstandard2.0/K4os.Compression.LZ4.dll",
         "lib/netstandard2.0/K4os.Compression.LZ4.xml"
+      ]
+    },
+    "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+      "sha512": "1Am6l4Vpn3/K32daEqZI+FFr96OlZkgwK2LcT3pZ2zWubR5zTPW3/FkO1Rat9kb7oQOa4rxgl9LJHc5tspCWfg==",
+      "type": "package",
+      "path": "microsoft.bcl.asyncinterfaces/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
+        "microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.nuspec",
+        "ref/net461/Microsoft.Bcl.AsyncInterfaces.dll",
+        "ref/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
+        "ref/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "Microsoft.CSharp/4.0.1": {
@@ -4094,6 +4160,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "Autofac >= 5.2.0",
       "CassandraCSharpDriver >= 3.15.1",
       "Microsoft.NETCore.App >= 2.1.0"
     ]
@@ -4139,6 +4206,10 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "Autofac": {
+            "target": "Package",
+            "version": "[5.2.0, )"
+          },
           "CassandraCSharpDriver": {
             "target": "Package",
             "version": "[3.15.1, )"

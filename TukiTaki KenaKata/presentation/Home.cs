@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TukiTaki_KenaKata.presentation
 {
-    class Home
+    class Home :IHome
     {
         public void ShowMainMenu()
         {
@@ -21,8 +22,8 @@ namespace TukiTaki_KenaKata.presentation
                 Console.WriteLine("8. Create Wish List");
                 Console.WriteLine("9. Update Wish List");
                 Console.WriteLine("10. Delete Wish List");
-                Console.WriteLine("11. Show Wish List Price");
-                Console.WriteLine("12. Show Wish List");
+                Console.WriteLine("11. Show All Coupons");
+                Console.WriteLine("12. Show Wish List Price");
                 Console.WriteLine("Any other key to exit.");
                 Console.WriteLine("Enter your choice (1-12): ");
                 choice = Helper.ReadSafeInt();
@@ -32,10 +33,24 @@ namespace TukiTaki_KenaKata.presentation
                     Console.ReadKey();
                     break;
                 }
-                
+
                 {
-                    ProductView productsView = new ProductView();
-                    WishView wishView= new WishView();
+
+
+                    //IContainer container;
+                    //ContainerBuilder builder = new ContainerBuilder();
+
+                    //builder.RegisterType<WishView>().As<IWishView>();
+                    //builder.RegisterType<ProductView>().As<IProductView>();
+                    //container = builder.Build();
+
+                    IProductView productsView = null;
+                    IWishView wishView = null;
+                    using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
+                    {
+                        wishView = scope.Resolve<IWishView>();
+                        productsView = scope.Resolve<IProductView>();
+                    }
                     switch (choice)
                     {
                         case 1:
@@ -66,13 +81,13 @@ namespace TukiTaki_KenaKata.presentation
                             wishView.UpdateWish();
                             break;
                         case 10:
-                            wishView.ShowWishListPrice();
+                            wishView.DeleteWish();
                             break;
                         case 11:
-                            wishView.ShowAllWish();
+                            wishView.ShowAllCoupons();
                             break;
                         case 12:
-                            wishView.ShowAllWish();
+                            wishView.ShowWishListPrice();
                             break;
                         default:
                             break;

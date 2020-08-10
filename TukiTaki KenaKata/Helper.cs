@@ -4,6 +4,7 @@ using System.Text;
 
 namespace TukiTaki_KenaKata
 {
+
     class Helper
     {
         static public int ReadSafeInt()
@@ -49,6 +50,21 @@ namespace TukiTaki_KenaKata
             {
                 return new Guid();
             }
+        }
+        public static void MyPrint(string variable, string color = "r")
+        {
+            Dictionary<string, int> colors = new Dictionary<string, int>();
+            colors["r"] = 31;
+            colors["g"] = 32;
+            Console.WriteLine($"\x1b[{colors[color]}m\x1b[1m{variable}\x1b[0m");
+        }
+        public static string MyOutputString(string variable, string color = "r")
+        {
+            Dictionary<string, int> colors = new Dictionary<string, int>();
+            colors["r"] = 31;
+            colors["g"] = 32;
+            colors["y"] = 33;
+            return ($"\x1b[{colors[color]}m\x1b[1m{variable}\x1b[0m");
         }
     }
 }

@@ -7,9 +7,9 @@ namespace TukiTaki_KenaKata.model
     class Product
     {
         Guid id { get; set; }
-        string name { get; set; }
-        string description { get; set; }
-        double price { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public double price { get; set; }
 
         public Product()
         {
@@ -30,9 +30,10 @@ namespace TukiTaki_KenaKata.model
             this.price = price;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return $"{this.id}. {this.name} ({this.description}) : {this.price}";
         }
+        
     }
 }

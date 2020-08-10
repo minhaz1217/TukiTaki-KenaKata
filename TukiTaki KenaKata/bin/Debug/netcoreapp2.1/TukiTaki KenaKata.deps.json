@@ -1,17 +1,29 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "5b97d63e41c15e809159f413a1e0f3a849fbe340"
+    "signature": "7e110322ff1df48ae23a21dff75478fb20342e1b"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "TukiTaki KenaKata/1.0.0": {
         "dependencies": {
+          "Autofac": "5.2.0",
           "CassandraCSharpDriver": "3.15.1"
         },
         "runtime": {
           "TukiTaki KenaKata.dll": {}
+        }
+      },
+      "Autofac/5.2.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Autofac.dll": {
+            "assemblyVersion": "5.2.0.0",
+            "fileVersion": "5.2.0.0"
+          }
         }
       },
       "CassandraCSharpDriver/3.15.1": {
@@ -39,6 +51,14 @@
           "lib/netstandard2.0/K4os.Compression.LZ4.dll": {
             "assemblyVersion": "1.1.11.0",
             "fileVersion": "1.1.11.0"
+          }
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.56404"
           }
         }
       },
@@ -533,6 +553,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Autofac/5.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-V8dBH0dsv75uDzl7Sw+HkhKDPUw2eXnlMjcSVMH+tLo2s67MpTKGyDj1pDcpR+IF2u4YRs0s3/x7R88YJzIWvg==",
+      "path": "autofac/5.2.0",
+      "hashPath": "autofac.5.2.0.nupkg.sha512"
+    },
     "CassandraCSharpDriver/3.15.1": {
       "type": "package",
       "serviceable": true,
@@ -546,6 +573,13 @@
       "sha512": "sha512-RNvJw0UGkedPhCqVBNIogtfQebY+bQt0PN7xDbVe5LWLra0ZEqPfjPSl7iStj3rgDnkqkkTTpm+vCX3hU1qKmA==",
       "path": "k4os.compression.lz4/1.1.11",
       "hashPath": "k4os.compression.lz4.1.1.11.nupkg.sha512"
+    },
+    "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1Am6l4Vpn3/K32daEqZI+FFr96OlZkgwK2LcT3pZ2zWubR5zTPW3/FkO1Rat9kb7oQOa4rxgl9LJHc5tspCWfg==",
+      "path": "microsoft.bcl.asyncinterfaces/1.1.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.0.1": {
       "type": "package",

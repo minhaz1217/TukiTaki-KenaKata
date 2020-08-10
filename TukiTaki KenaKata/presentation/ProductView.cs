@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using TukiTaki_KenaKata.model;
 using TukiTaki_KenaKata.service;
+using Autofac;
 
 namespace TukiTaki_KenaKata.presentation
 {
-    class ProductView
+    class ProductView : IProductView
     {
-        ProductService productService;
+        IProductService productService =null;
         public ProductView()
         {
-            this.productService = new ProductService();
+            using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
+            {
+                this.productService = scope.Resolve<IProductService>();
+            }
         }
         public void ShowAllProductsView()
         {
@@ -30,9 +34,15 @@ namespace TukiTaki_KenaKata.presentation
             int.TryParse(choice, out ch);
             if (ch == 0)
             {
-
                 Product product = this.productService.GetSingleProduct(choice);
-                Console.WriteLine(product.ToString());
+                if(product != null)
+                {
+                    Console.WriteLine(product.ToString());
+                }
+                else
+                {
+                    Helper.MyPrint("No product.", "r");
+                }
             }
             else
             {
