@@ -9,10 +9,10 @@ namespace TukiTaki_KenaKata.model
         Product,
         Wish
     }
-    class WishListItem { 
+    class WishListItemDTO { 
         public Guid id { get; set; }
         public ItemType type { get; set; }
-        public WishListItem(Guid id, ItemType itemType)
+        public WishListItemDTO(Guid id, ItemType itemType)
         {
             this.id = id;
             this.type = itemType;

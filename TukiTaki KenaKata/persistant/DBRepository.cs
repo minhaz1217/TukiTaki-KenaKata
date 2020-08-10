@@ -52,13 +52,13 @@ namespace TukiTaki_KenaKata.persistant
             }
             return 0;
         }
-        public List<Product> GetAllProduct()
+        public List<ProductDTO> GetAllProduct()
         {
-            List<Product> products = new List<Product>();
+            List<ProductDTO> products = new List<ProductDTO>();
             dynamic rs = session.Execute("select * from product;");
             foreach (Cassandra.Row row in rs)
             {
-                products.Add(new Product(row));
+                products.Add(new ProductDTO(row));
 
             }
             return products;
@@ -66,7 +66,7 @@ namespace TukiTaki_KenaKata.persistant
         
 
         // This GetSingleProduct can return null if there is no product to return for that id;
-        public Product GetSingleProduct(Guid productId)
+        public ProductDTO GetSingleProduct(Guid productId)
         {
 
             PreparedStatement ps = session.Prepare("SELECT * FROM product where id=?;");
@@ -74,7 +74,7 @@ namespace TukiTaki_KenaKata.persistant
             RowSet rowSet = session.Execute(statement);
             foreach (Row row in rowSet)
             {
-                return new Product(row);
+                return new ProductDTO(row);
             }
             return null;
         }
@@ -116,14 +116,14 @@ namespace TukiTaki_KenaKata.persistant
         }
 
 
-        public bool CreateWish(string name, List<WishListItem> items)
+        public bool CreateWish(string name, List<WishListItemDTO> items)
         {
             Guid wishId = Guid.NewGuid();
             PreparedStatement wishTableInsert = session.Prepare("INSERT INTO wish(id, name) VALUES(?,?);");
             PreparedStatement wishListInsert = session.Prepare("INSERT INTO wishlist(id, item_id, wish_id, item_type) VALUES(?,?,?,?);");
             BatchStatement batch = new BatchStatement();
             batch.Add(wishTableInsert.Bind(wishId.ToString(), name));
-            foreach (WishListItem item in items)
+            foreach (WishListItemDTO item in items)
             {
                 batch.Add(wishListInsert.Bind(Guid.NewGuid().ToString(), item.id.ToString(), wishId.ToString(), (int)item.type));
             }
@@ -131,16 +131,16 @@ namespace TukiTaki_KenaKata.persistant
             return true;
         }
 
-        public List<WishListItem> GetWishListItemForAWish(Guid wishId)
+        public List<WishListItemDTO> GetWishListItemForAWish(Guid wishId)
         {
-            List<WishListItem> wishListItems = new List<WishListItem>();
+            List<WishListItemDTO> wishListItems = new List<WishListItemDTO>();
 
             return wishListItems;
         }
 
-        public List<Product> GetAllProductFromWish(Guid wishId)
+        public List<ProductDTO> GetAllProductFromWish(Guid wishId)
         {
-            List<Product> products = new List<Product>();
+            List<ProductDTO> products = new List<ProductDTO>();
             PreparedStatement wishListPS = session.Prepare("select * from wishlist where wish_id=? ALLOW FILTERING");
             BoundStatement wishListBS = wishListPS.Bind(wishId.ToString());
             RowSet wishListResult = session.Execute(wishListBS);
@@ -156,7 +156,7 @@ namespace TukiTaki_KenaKata.persistant
                         RowSet productRowSet = session.Execute(productPreparedStatement.Bind(productId.ToString()));
                         foreach(Row productRow in productRowSet)
                         {
-                            products.Add(new Product(productRow));
+                            products.Add(new ProductDTO(productRow));
                         }
                         //productBatch.Add(productPreparedStatement.Bind(productId.ToString()));
                     }
@@ -171,13 +171,13 @@ namespace TukiTaki_KenaKata.persistant
             }
             return products;
         }
-        public List<Wish> GetAllWish()
+        public List<WishDTO> GetAllWish()
         {
-            List<Wish> wishes = new List<Wish>();
+            List<WishDTO> wishes = new List<WishDTO>();
             RowSet wishesResult = session.Execute("select * from wish;");
             foreach (Row wishRow in wishesResult)
             {
-                wishes.Add(new Wish(wishRow));
+                wishes.Add(new WishDTO(wishRow));
             }
             return wishes;
         }
@@ -195,15 +195,15 @@ namespace TukiTaki_KenaKata.persistant
         }
 
         // This GetSingleWish can return null if there is no wish to return for that id;
-        public Wish GetSingleWish(Guid productId)
+        public WishDTO GetSingleWish(Guid productId)
         {
 
-            Wish wish = null;
+            WishDTO wish = null;
             PreparedStatement preparedStatement = session.Prepare("select * from wish where id=?");
             RowSet wishesResult = session.Execute(preparedStatement.Bind(productId.ToString()));
             foreach (Row wishRow in wishesResult)
             {
-                wish = new Wish(wishRow);
+                wish = new WishDTO(wishRow);
             }
             return wish;
         }
@@ -215,7 +215,7 @@ namespace TukiTaki_KenaKata.persistant
             RowSet rowSet = session.Execute(statement);
             return true;
         }
-        public bool AddItemToWish(Guid wishId, WishListItem item)
+        public bool AddItemToWish(Guid wishId, WishListItemDTO item)
         {
             PreparedStatement wishListInsert = session.Prepare("INSERT INTO wishlist(id, item_id, wish_id, item_type) VALUES(?,?,?,?);");
             RowSet x = session.Execute(wishListInsert.Bind(Guid.NewGuid().ToString(), item.id.ToString(), wishId.ToString(), (int)item.type));

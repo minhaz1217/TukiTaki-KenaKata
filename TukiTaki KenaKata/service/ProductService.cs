@@ -20,13 +20,13 @@ namespace TukiTaki_KenaKata.service
             }
         }
 
-        public List<Product> GetAllProduct()
+        public List<ProductDTO> GetAllProduct()
         {
             // TODO: use linq
             return db.GetAllProduct();
         }
 
-        public Product GetSingleProduct(string productId)
+        public ProductDTO GetSingleProduct(string productId)
         {
             Guid id = Helper.SafeGuidParse(productId);
 

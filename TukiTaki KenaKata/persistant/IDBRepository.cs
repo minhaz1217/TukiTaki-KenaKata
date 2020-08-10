@@ -8,21 +8,21 @@ namespace TukiTaki_KenaKata.persistant
     interface IDBRepository
     {
         long CheckProductCount(Guid productId);
-        List<Product> GetAllProduct();
-        Product GetSingleProduct(Guid productId);
+        List<ProductDTO> GetAllProduct();
+        ProductDTO GetSingleProduct(Guid productId);
         bool CreateProduct(string name, string description, double price);
         bool ChangeProductName(Guid productId, string name);
         bool ChangeProductDescription(Guid productId, string description);
         bool ChangeProductPrice(Guid productId, double price);
         bool DeleteProduct(Guid productId);
-        bool CreateWish(string name, List<WishListItem> items);
-        List<WishListItem> GetWishListItemForAWish(Guid wishId);
-        List<Product> GetAllProductFromWish(Guid wishId);
-        List<Wish> GetAllWish();
+        bool CreateWish(string name, List<WishListItemDTO> items);
+        List<WishListItemDTO> GetWishListItemForAWish(Guid wishId);
+        List<ProductDTO> GetAllProductFromWish(Guid wishId);
+        List<WishDTO> GetAllWish();
         long CheckWishCount(Guid wishId);
-        Wish GetSingleWish(Guid productId);
+        WishDTO GetSingleWish(Guid productId);
         bool ChangeWishName(Guid wishId, string newName);
-        bool AddItemToWish(Guid wishId, WishListItem item);
+        bool AddItemToWish(Guid wishId, WishListItemDTO item);
         bool DeleteItemFromWish(Guid wishId, Guid item);
         bool DeleteWish(Guid wishId);
         bool CheckCycle(Guid parent, Guid child);

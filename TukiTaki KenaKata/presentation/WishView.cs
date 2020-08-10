@@ -35,7 +35,7 @@ namespace TukiTaki_KenaKata.presentation
             Console.WriteLine("Enter wish name: ");
             string name = Console.ReadLine().Trim();
             Guid wishId = Guid.NewGuid();
-            List<WishListItem> items = new List<WishListItem>();
+            List<WishListItemDTO> items = new List<WishListItemDTO>();
             while (true)
             {
                 Console.WriteLine($"1. To add Product in {name}?");
@@ -49,7 +49,7 @@ namespace TukiTaki_KenaKata.presentation
                     string idString = Console.ReadLine();
                     if (this.productService.ProductExists(idString))
                     {
-                        items.Add(new WishListItem(Helper.SafeGuidParse(idString), ItemType.Product));
+                        items.Add(new WishListItemDTO(Helper.SafeGuidParse(idString), ItemType.Product));
                         Helper.MyPrint("Product has been added to your list.", "g");
                     }
                     else
@@ -65,7 +65,7 @@ namespace TukiTaki_KenaKata.presentation
                     Guid newWishId = Helper.SafeGuidParse(idString);
                     if(newWishId != new Guid())
                     {
-                        items.Add(new WishListItem(Helper.SafeGuidParse(idString), ItemType.Wish));
+                        items.Add(new WishListItemDTO(Helper.SafeGuidParse(idString), ItemType.Wish));
                         Helper.MyPrint($"Wish added to {name}");
                     }
                     else
@@ -83,7 +83,7 @@ namespace TukiTaki_KenaKata.presentation
         }
         public void ShowAllWish()
         {
-            List<Wish> wishes= new List<Wish>();
+            List<WishDTO> wishes= new List<WishDTO>();
             wishes = this.wishService.GetAllWish();
             for (int i = 0; i < wishes.Count; i++)
             {
@@ -95,7 +95,7 @@ namespace TukiTaki_KenaKata.presentation
             Console.WriteLine("Enter the wish id you want to see: ");
             Console.WriteLine("Enter -1 to go back: ");
             string idString = Console.ReadLine().Trim();
-            Wish wish = this.wishService.GetSingleWish(idString);
+            WishDTO wish = this.wishService.GetSingleWish(idString);
             if(wish== null)
             {
                 Helper.MyPrint("No wish found.");
@@ -217,11 +217,11 @@ namespace TukiTaki_KenaKata.presentation
                 {
                     totalDiscount = 1;
                 }
-                Wish wish = this.wishService.GetSingleWish(wishIdString);
+                WishDTO wish = this.wishService.GetSingleWish(wishIdString);
                 if(wish != null)
                 {
                     double totalWishPrice = 0;
-                    foreach(Product product in wish.products)
+                    foreach(ProductDTO product in wish.products)
                     {
                         totalWishPrice += product.price;
                     }

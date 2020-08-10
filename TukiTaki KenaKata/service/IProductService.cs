@@ -7,8 +7,8 @@ namespace TukiTaki_KenaKata.service
 {
     interface IProductService
     {
-        List<Product> GetAllProduct();
-        Product GetSingleProduct(string productId);
+        List<ProductDTO> GetAllProduct();
+        ProductDTO GetSingleProduct(string productId);
         bool CreateProduct(string name, string description, double price);
         bool ChangeProductName(string idString, string name);
         bool ChangeProductDescription(string idString, string description);

@@ -7,9 +7,9 @@ namespace TukiTaki_KenaKata.service
 {
     interface IWishService
     {
-        List<Wish> GetAllWish();
-        Wish GetSingleWish(string stringId);
-        bool CreateWish(string name, List<WishListItem> items);
+        List<WishDTO> GetAllWish();
+        WishDTO GetSingleWish(string stringId);
+        bool CreateWish(string name, List<WishListItemDTO> items);
         bool WishExists(string idString);
         bool ChangeWishName(string idString, string name);
         bool AddItemToWish(string wishIdString, string itemIdString, ItemType itemType);

@@ -19,7 +19,7 @@ namespace TukiTaki_KenaKata.presentation
         }
         public void ShowAllProductsView()
         {
-            List<Product> products = new List<Product>();
+            List<ProductDTO> products = new List<ProductDTO>();
             products = this.productService.GetAllProduct();
             for (int i = 0; i < products.Count; i++)
             {
@@ -34,7 +34,7 @@ namespace TukiTaki_KenaKata.presentation
             int.TryParse(choice, out ch);
             if (ch == 0)
             {
-                Product product = this.productService.GetSingleProduct(choice);
+                ProductDTO product = this.productService.GetSingleProduct(choice);
                 if(product != null)
                 {
                     Console.WriteLine(product.ToString());

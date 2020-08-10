@@ -17,13 +17,13 @@ namespace TukiTaki_KenaKata.service
                 db = scope.Resolve<IDBRepository>();
             }
         }
-        public List<Wish> GetAllWish()
+        public List<WishDTO> GetAllWish()
         {
 
             return db.GetAllWish();
         }
 
-        public Wish GetSingleWish(string stringId)
+        public WishDTO GetSingleWish(string stringId)
         {
             Guid wishId = Helper.SafeGuidParse(stringId);
             if (wishId == new Guid())
@@ -36,7 +36,7 @@ namespace TukiTaki_KenaKata.service
                 return this.db.GetSingleWish(wishId);
             }
         }
-        public bool CreateWish(string name, List<WishListItem> items)
+        public bool CreateWish(string name, List<WishListItemDTO> items)
         {
             return this.db.CreateWish(name, items);
         }
@@ -88,7 +88,7 @@ namespace TukiTaki_KenaKata.service
             }
             else 
             {
-                return this.db.AddItemToWish(wishId, new WishListItem(itemId, itemType) );
+                return this.db.AddItemToWish(wishId, new WishListItemDTO(itemId, itemType) );
             }
             
         }
