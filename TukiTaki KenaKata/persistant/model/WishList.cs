@@ -11,16 +11,16 @@ namespace TukiTaki_KenaKata.persistant.model
         public const string COL_ITEM_ID = "item_id";
         public const string COL_ITEM_TYPE = "item_type";
 
-        string id;
-        string itemId;
-        string wishId;
-        int itemType;
-        public WishList(string id, string itemId, string wishId, int itemType)
+        public string Id { get; set; }
+        public string ItemId { get; set; }
+        public string WishId { get; set; }
+        public int ItemType { get; set; }
+        public WishList(string id, string wishId, string itemId, int itemType)
         {
-            this.id = id;
-            this.itemId = itemId;
-            this.wishId = wishId;
-            this.itemType = itemType;
+            this.Id = id;
+            this.ItemId = itemId;
+            this.WishId = wishId;
+            this.ItemType = itemType;
         }
     }
 }

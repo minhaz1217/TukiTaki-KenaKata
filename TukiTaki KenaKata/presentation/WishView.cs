@@ -221,9 +221,9 @@ namespace TukiTaki_KenaKata.presentation
                 if(wish != null)
                 {
                     double totalWishPrice = 0;
-                    foreach(ProductDTO product in wish.products)
+                    foreach(ProductDTO product in wish.Products)
                     {
-                        totalWishPrice += product.price;
+                        totalWishPrice += product.Price;
                     }
                     Helper.MyPrint($"Your total wish will cost {totalWishPrice - totalWishPrice*totalDiscount} taka.", "g");
                 }

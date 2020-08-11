@@ -35,7 +35,7 @@ namespace TukiTaki_KenaKata
             builder.RegisterType <ProductService> ().As<IProductService>();
 
             //builder.RegisterType <DBRepository> ().As<IDBRepository>();
-            builder.Register(c => DBRepository.Instance()).As<IDBRepository>();
+            builder.Register(c => CassandraDBRepository.Instance()).As<IDBRepository>();
         }
     }
 }

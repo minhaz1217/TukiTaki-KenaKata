@@ -4,7 +4,9 @@ using System.Text;
 
 namespace TukiTaki_KenaKata.persistant
 {
-    interface IDBRepository: IProductRepository, IWishRepository, IWishListRepository
+    interface IDBFactory
     {
+        IDBRepository GetCassandraDB();
+        IDBRepository GetMongoDB();
     }
 }

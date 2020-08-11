@@ -9,12 +9,12 @@ namespace TukiTaki_KenaKata.persistant.model
         public const string COL_ID = "id";
         public const string COL_NAME = "name";
 
-        string id;
-        string name;
+        public string Id { get; set; }
+        public string Name { get; set; }
         public Wish(string id, string name)
         {
-            this.id = id;
-            this.name = name;
+            this.Id = id;
+            this.Name = name;
         }
     }
 }

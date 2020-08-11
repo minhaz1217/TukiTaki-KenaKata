@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using TukiTaki_KenaKata.model;
 using TukiTaki_KenaKata.persistant;
+using TukiTaki_KenaKata.persistant.model;
+using TukiTaki_KenaKata.service.mapper;
 
 namespace TukiTaki_KenaKata.service
 {
@@ -14,6 +16,8 @@ namespace TukiTaki_KenaKata.service
 
         public ProductService()
         {
+            //IDBFactory dbFactory = new DBFactory();
+            //db = dbFactory.GetCassandraDB();
             using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
             {
                 db = scope.Resolve<IDBRepository>();
@@ -23,7 +27,20 @@ namespace TukiTaki_KenaKata.service
         public List<ProductDTO> GetAllProduct()
         {
             // TODO: use linq
-            return db.GetAllProduct();
+            List<Product> products = db.GetAllProduct();
+            List<ProductDTO> productDTOs = new List<ProductDTO>();
+            foreach (Product prod in products)
+            {
+                if(Helper.SafeGuidParse(prod.Id) == new Guid())
+                {
+                    Helper.MyPrint("Error: Invalid Id", "r");
+                }
+                else
+                {
+                    productDTOs.Add(ModelToDTOMapper.ProductMapper(prod));
+                }
+            }
+            return productDTOs;
         }
 
         public ProductDTO GetSingleProduct(string productId)
@@ -37,24 +54,38 @@ namespace TukiTaki_KenaKata.service
             }
             else
             {
-                return this.db.GetSingleProduct(id);
+                return ModelToDTOMapper.ProductMapper(this.db.GetSingleProduct(id));
             }
         }
         public bool CreateProduct(string name, string description, double price)
         {
-            return this.db.CreateProduct(name, description, price);
+            Guid productId = Guid.NewGuid();
+            Product product = new Product(productId.ToString(),name, description,price );
+            return this.db.CreateProduct(product);
         }
+
         public bool ChangeProductName(string idString, string name)
         {
             Guid productId = Helper.SafeGuidParse(idString);
             if (productId == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Error: Invalid Id", "r");
                 return false;
             }
             else
             {
-                return this.db.ChangeProductName(productId, name);
+                Product product = this.db.GetSingleProduct(productId);
+                if(product == null)
+                {
+                    Helper.MyPrint("Error: Product Doesn't exist", "r");
+                    return false;
+                }
+                else
+                {
+                    product.Name = name;
+                    return this.db.UpdateProduct(product);
+                }
+
             }
         }
         public bool ChangeProductDescription(string idString, string description)
@@ -67,7 +98,17 @@ namespace TukiTaki_KenaKata.service
             }
             else
             {
-                return this.db.ChangeProductDescription(productId, description);
+                Product product = this.db.GetSingleProduct(productId);
+                if (product == null)
+                {
+                    Helper.MyPrint("Error: Product Doesn't exist", "r");
+                    return false;
+                }
+                else
+                {
+                    product.Description = description;
+                    return this.db.UpdateProduct(product);
+                }
             }
         }
 
@@ -86,7 +127,17 @@ namespace TukiTaki_KenaKata.service
             }
             else
             {
-                return this.db.ChangeProductPrice(productId, price);
+                Product product = this.db.GetSingleProduct(productId);
+                if (product == null)
+                {
+                    Helper.MyPrint("Error: Product Doesn't exist", "r");
+                    return false;
+                }
+                else
+                {
+                    product.Price = price;
+                    return this.db.UpdateProduct(product);
+                }
             }
         }
         public bool ProductExists(string idString)
@@ -109,17 +160,17 @@ namespace TukiTaki_KenaKata.service
                 }
             }
         }
-        public bool DeleteProduct(string productId)
+        public bool DeleteProduct(string idString)
         {
-            Guid id = Helper.SafeGuidParse(productId);
-            if (id == new Guid())
+            Guid productId = Helper.SafeGuidParse((string)idString);
+            if (productId == new Guid())
             {
                 Console.WriteLine("Invalid Product id");
                 return false;
             }
             else
             {
-                return this.db.DeleteProduct(id);
+                return this.db.DeleteProduct(productId);
             }
         }
     }

@@ -11,16 +11,16 @@ namespace TukiTaki_KenaKata.persistant.model
         public const string COL_DESCRIPTION = "description";
         public const string COL_PRICE = "price";
 
-        string id;
-        string description;
-        string name;
-        double price;
-        public Product(string id, string description, string name, double price) 
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public Product(string id, string name, string description, double price) 
         {
-            this.id = id;
-            this.description = description;
-            this.name = name;
-            this.price = price;
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.Price = price;
         }
     }
 }

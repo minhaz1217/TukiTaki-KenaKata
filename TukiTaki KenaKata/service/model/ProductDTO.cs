@@ -6,33 +6,26 @@ namespace TukiTaki_KenaKata.model
 {
     class ProductDTO
     {
-        Guid id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public double price { get; set; }
+        Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
 
         public ProductDTO()
         {
 
         }
-        public ProductDTO(Cassandra.Row row)
-        {
-            this.id = Guid.Parse(row.GetValue<string>("id"));
-            this.name = row.GetValue<string>("name");
-            this.description = row.GetValue<string>("description");
-            this.price = row.GetValue<double>("price");
-        }
         public ProductDTO(Guid id, string name, string description, double price)
         {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.price = price;
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.Price = price;
         }
 
         public override string ToString()
         {
-            return $"{this.id}. {this.name} ({this.description}) : {this.price}";
+            return $"{this.Id}. {this.Name} ({this.Description}) : {this.Price}";
         }
         
     }
