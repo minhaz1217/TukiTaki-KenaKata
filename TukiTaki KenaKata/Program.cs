@@ -9,9 +9,9 @@ namespace TukiTaki_KenaKata
         static void Main(string[] args)
         {
             IHome home = null;
-            string sAttr;
-            sAttr = ConfigurationManager.AppSettings.Get("CASSANDRA_SERVER_NAME");
-            Console.WriteLine(sAttr);
+            //string sAttr;
+            //sAttr = ConfigurationManager.AppSettings.Get("CASSANDRA_SERVER_NAME");
+            //Console.WriteLine(sAttr);
             using (var scope = DependencyResolver.Instance().BeginLifetimeScope())
             {
                 home = scope.Resolve<IHome>();

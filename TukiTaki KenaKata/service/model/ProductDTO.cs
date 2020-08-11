@@ -25,7 +25,12 @@ namespace TukiTaki_KenaKata.model
 
         public override string ToString()
         {
-            return $"{this.Id}. {this.Name} ({this.Description}) : {this.Price}";
+
+            return $"" +
+                $"{Helper.MyOutputString(this.Id.ToString() + "\n", "m")}" +
+                $"{Helper.MyOutputString(this.Name + "", "g")} " +
+                $"({Helper.MyOutputString(this.Description+ "", "b")}) : " +
+                $"{Helper.MyOutputString(((long)this.Price).ToString() + "", "r")}";
         }
         
     }

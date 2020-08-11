@@ -23,7 +23,7 @@ namespace TukiTaki_KenaKata.model
         {
             StringBuilder outputString = new StringBuilder();
             outputString.Append(Helper.MyOutputString(this.Id.ToString() +"\n", "y"));
-            outputString.Append(Helper.MyOutputString(this.Name.ToString()+"\n", "g"));
+            outputString.Append(Helper.MyOutputString(this.Name.ToString()+"\n", "c"));
             this.Products.ForEach( delegate(ProductDTO product)
                 {
                     outputString.Append($"({product.ToString()})\n");

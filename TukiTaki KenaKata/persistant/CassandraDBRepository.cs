@@ -116,7 +116,7 @@ namespace TukiTaki_KenaKata.persistant
         public bool DeleteProduct(Guid productId)
         {
             dynamic ps = session.Prepare("DELETE FROM product WHERE id=?;");
-            var statement = ps.Bind(productId);
+            var statement = ps.Bind(productId.ToString());
             Cassandra.RowSet x = session.Execute(statement);
             //Console.WriteLine(x.Info.QueriedHost)
             return true;
@@ -143,13 +143,6 @@ namespace TukiTaki_KenaKata.persistant
             return true;
         }
 
-        // TODO: implement this
-        public List<WishList> GetWishListItemForAWish(Wish wish)
-        {
-            List<WishList> wishListItems = new List<WishList>();
-
-            return wishListItems;
-        }
         public List<WishList> GetWishListByWish(Guid wishId)
         {
             List<WishList> wishLists = new List<WishList>();
@@ -239,18 +232,6 @@ namespace TukiTaki_KenaKata.persistant
             RowSet rowSet = session.Execute(statement);
             return true;
         }
-        public bool DeleteItemFromWish(Guid wishId, Guid item)
-        {
-            // TODO: error
-            PreparedStatement wishListInsert = session.Prepare("DELETE from wishlist where wish_id=? and item_id=?;");
-            // wishlist >> id wish_id item_id
-            //select * from wishlist where wish_id =?  >> id
-
-
-            RowSet x = session.Execute(wishListInsert.Bind(wishId.ToString(), item.ToString()));
-            return true;
-        }
-
         public bool DeleteWishLists(List<WishList> wishLists)
         {
             PreparedStatement removeWishFromWishListPS = session.Prepare("DELETE from wishlist where id=?;");

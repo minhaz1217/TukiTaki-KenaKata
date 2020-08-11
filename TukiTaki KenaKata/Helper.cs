@@ -64,6 +64,9 @@ namespace TukiTaki_KenaKata
             colors["r"] = 31;
             colors["g"] = 32;
             colors["y"] = 33;
+            colors["b"] = 34;
+            colors["m"] = 35;
+            colors["c"] = 36;
             return ($"\x1b[{colors[color]}m\x1b[1m{variable}\x1b[0m");
         }
     }

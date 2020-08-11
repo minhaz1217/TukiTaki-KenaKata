@@ -191,7 +191,7 @@ namespace TukiTaki_KenaKata.presentation
         {
             foreach (KeyValuePair<string, double> coupon in coupons)
             {
-                Helper.MyPrint($"{coupon.Key} give you {coupon.Value * 10}%");
+                Helper.MyPrint($"{coupon.Key} gives you {coupon.Value * 10}%");
             }
         }
         public void ShowWishListPrice()
@@ -209,8 +209,14 @@ namespace TukiTaki_KenaKata.presentation
                 {
                     if(coupon != "")
                     {
-                        // TODO: check for invalid coupon
-                        totalDiscount += this.coupons[coupon];
+                        if (this.coupons.ContainsKey(coupon))
+                        {
+                            totalDiscount += this.coupons[coupon];
+                        }
+                        else
+                        {
+                            Helper.MyPrint($"Error: {coupon} doesn't exist.", "r");
+                        }
                     }
                 }
                 if(totalDiscount > 1)

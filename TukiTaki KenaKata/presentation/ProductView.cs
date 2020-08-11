@@ -30,8 +30,11 @@ namespace TukiTaki_KenaKata.presentation
         {
             Console.WriteLine("Enter the product id that you want to see(-1 to go  back): ");
             string choice = Console.ReadLine().Trim();
-            int ch = 0; ;
+
+            //Console.WriteLine("REACHED " + choice);
+            int ch = 0;
             int.TryParse(choice, out ch);
+            //Console.WriteLine("After Parse");
             if (ch == 0)
             {
                 ProductDTO product = this.productService.GetSingleProduct(choice);

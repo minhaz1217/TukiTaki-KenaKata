@@ -93,7 +93,7 @@ namespace TukiTaki_KenaKata.service
             Guid productId = Helper.SafeGuidParse(idString);
             if (productId == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Error: Invalid Product id.", "r");
                 return false;
             }
             else
@@ -122,7 +122,7 @@ namespace TukiTaki_KenaKata.service
             }
             else if (productId == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Error: Invalid Product id.");
                 return false;
             }
             else
@@ -145,7 +145,7 @@ namespace TukiTaki_KenaKata.service
             Guid productId = Helper.SafeGuidParse(idString);
             if (productId == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Error: Invalid Product id.");
                 return false;
             }
             else
@@ -165,7 +165,7 @@ namespace TukiTaki_KenaKata.service
             Guid productId = Helper.SafeGuidParse((string)idString);
             if (productId == new Guid())
             {
-                Console.WriteLine("Invalid Product id");
+                Helper.MyPrint("Error: Invalid Product id.","r");
                 return false;
             }
             else
