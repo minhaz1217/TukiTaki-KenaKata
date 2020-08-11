@@ -14,7 +14,6 @@ namespace TukiTaki_KenaKata.persistant
         public IDBRepository GetMongoDB()
         {
             //return MongoDBRepository.Instance();
-
             throw new NotImplementedException();
         }
     }

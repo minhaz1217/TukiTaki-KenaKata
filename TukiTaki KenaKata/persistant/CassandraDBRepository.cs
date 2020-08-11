@@ -250,5 +250,16 @@ namespace TukiTaki_KenaKata.persistant
             session.Execute(removeWishFromWishPS.Bind(wishId.ToString()));
             return true;
         }
+
+        public List<WishList> GetAllWishList()
+        {
+            List<WishList> wishLists = new List<WishList>();
+            RowSet rows = session.Execute("select * from wishlist;");
+            foreach(Row row in rows)
+            {
+                wishLists.Add(CassandraMapper.DBWishListMapper(row));
+            }
+            return wishLists;
+        }
     }
 }

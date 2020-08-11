@@ -9,5 +9,6 @@ namespace TukiTaki_KenaKata.persistant
     {
         bool CreateWishLists(List<WishList> wishLists);
         bool DeleteWishLists(List<WishList> wishLists);
+        List<WishList> GetAllWishList();
     }
 }
