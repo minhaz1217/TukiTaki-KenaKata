@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using TukiTaki_KenaKata.model;
 using TukiTaki_KenaKata.persistant.mapper;
@@ -151,7 +152,7 @@ namespace TukiTaki_KenaKata.persistant
             BoundStatement wishListBS = wishListPS.Bind(wishId.ToString());
             RowSet rows = session.Execute(wishListBS);
             foreach (Row row in rows)
-            {
+            {   
                 wishLists.Add(CassandraMapper.DBWishListMapper(row));
             }
             return wishLists;

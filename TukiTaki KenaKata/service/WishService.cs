@@ -6,6 +6,7 @@ using TukiTaki_KenaKata.persistant;
 using Autofac;
 using TukiTaki_KenaKata.persistant.model;
 using TukiTaki_KenaKata.service.mapper;
+using System.Linq;
 
 namespace TukiTaki_KenaKata.service
 {
@@ -173,13 +174,25 @@ namespace TukiTaki_KenaKata.service
                 }
                 else if (itemType == ItemType.Wish)
                 {
-                    Wish itemWish = this.db.GetSingleWish(wishId);
+                    Wish itemWish = this.db.GetSingleWish(itemId);
                     if (itemWish == null)
                     {
                         Helper.MyPrint($"Error: Wish doesn't exist {wishId.ToString()}.");
                         return false;
                     }
-                    return this.db.CreateWishLists(new List<WishList> { new WishList(Guid.NewGuid().ToString(), wish.Id, itemWish.Id, (int)itemType) });
+                    else
+                    {
+                        if(this.CanAddThisWishToThatWish( wish.Id, itemWish.Id))
+                        {
+                            //Helper.MyPrint("HI");
+                            return this.db.CreateWishLists(new List<WishList> { new WishList(Guid.NewGuid().ToString(), wish.Id, itemWish.Id, (int)itemType) });
+                        }
+                        else
+                        {
+                            Helper.MyPrint("Error: Cycle exists, you can't add this.", "r");
+                            return false;
+                        }
+                    }
                 }
             }
             return true;
@@ -208,8 +221,27 @@ namespace TukiTaki_KenaKata.service
                     return false;
                 }
                 List<WishList> wishLists = this.db.GetWishListByWish( Helper.SafeGuidParse(wish.Id) );
-                // TODO: FIX THIS AND IMPLEMENT LINQ, search for item id in the wishlists using linq
-                return true;
+                var linqQuery = wishLists.Where(s=> s.ItemId==itemId.ToString()).Select(s => s);
+                List<WishList> itemsToDelete = new List<WishList>();
+                foreach(WishList wishList in linqQuery)
+                {
+                    int z = itemsToDelete.Select(x => x).Where(s => s.ItemId == wishList.ItemId).Count();
+                    if(z == 0)
+                    {
+                        itemsToDelete.Add(wishList);
+                    }
+                }
+                if(itemsToDelete.Count > 0)
+                {
+                    this.db.DeleteWishLists(itemsToDelete);
+                    return true;
+                }
+                else
+                {
+                    Helper.MyPrint("Error: Nothing has been deleted.", "r");
+                    return false;
+                }
+
             }
         }
         public bool DeleteWish(string wishIdString)
@@ -239,91 +271,67 @@ namespace TukiTaki_KenaKata.service
 
 
 
-        private bool CheckCycle(Guid parent, Guid child)
+        private bool CycleExists(Guid start, Guid end, Dictionary<string, bool> visited)
         {
-            List<WishList> wishLists1 = this.db.GetWishListByWish(parent);
-            List<WishList> wishLists2 = this.db.GetWishListByWish(child);
-            Dictionary<string, List<string>> graph = new Dictionary<string, List<string>>();
-            Dictionary<string, bool> visited1 = new Dictionary<string, bool>();
-            Dictionary<string, bool> visited2 = new Dictionary<string, bool>();
-
-            graph[parent.ToString()] = new List<string>();
-            visited1[parent.ToString()] = false;
-            visited2[parent.ToString()] = false;
-
-            graph[child.ToString()] = new List<string>();
-            visited1[child.ToString()] = false;
-            visited2[child.ToString()] = false;
-            // TODO: can incorporate linq here
-            foreach (WishList item in wishLists1)
+            //Helper.MyPrint($"Got {start.ToString()} {end.ToString()}");
+            if(start.ToString() == end.ToString())
             {
-                if (item.ItemType == (int)ItemType.Wish)
-                {
-                    string wishId = item.WishId;
-                    string itemId = item.ItemId;
-                    if (!graph.ContainsKey(wishId))
-                    {
-                        graph[wishId] = new List<string>();
-                        visited1[wishId] = false;
-                        visited2[wishId] = false;
-                    }
-                    if (!graph.ContainsKey(itemId))
-                    {
-                        graph[itemId] = new List<string>();
-                        visited1[itemId] = false;
-                        visited2[itemId] = false;
-                    }
-                    graph[wishId].Add(itemId);
-                }
+                //Helper.MyPrint($"{visited.ContainsKey(start.ToString())} AND {visited.ContainsKey(end.ToString())}");
+                return true;
             }
-
-            //foreach (KeyValuePair<string, List<string>> item in graph)
-            //{
-            //    StringBuilder stringBuilder = new StringBuilder();
-            //    item.Value.ForEach(delegate (string edge)
-            //    {
-            //        stringBuilder.Append(edge + ",");
-            //    });
-            //    Console.WriteLine($"{item.Key} -> {stringBuilder.ToString()}");
-            //}
-            visited1[parent.ToString()] = true;
-            visited2[child.ToString()] = true;
-            bool fromParent = this.CycleDetection(graph, visited1, parent.ToString(), child.ToString());
-            bool fromChild = this.CycleDetection(graph, visited2, child.ToString(), parent.ToString());
-            //Helper.MyPrint($"Parent: {parent.ToString()} -> {fromParent}");
-            //Helper.MyPrint($"Child: {child.ToString()} -> {fromChild}");
-            return fromParent || fromChild;
-        }
-
-        // it returns true if cycle exists other wise false
-        private bool CycleDetection(Dictionary<string, List<string>> graph, Dictionary<string, bool> visited, string start, string end)
-        {
-            foreach (string edge in graph[start])
+            else
             {
-                if (edge == end)
+                visited[start.ToString()] = true;
+                List<WishList> wishLists = this.db.GetWishListByWish(start);
+                //Helper.MyPrint("Exploring -> " + start.ToString());
+                wishLists.ForEach(d => Helper.MyPrint(d.ItemId, "g"));
+                foreach (WishList wishList in wishLists)
                 {
-                    return true;
-                }
-                else
-                {
-                    if (visited[edge] == false)
+                    if (!visited.ContainsKey(wishList.ItemId))
                     {
-                        visited[edge] = true;
-                        return CycleDetection(graph, visited, edge, end);
+                        visited[wishList.ItemId] = true;
+                        //Helper.MyPrint("Sending " + wishList.ItemId, "g");
+                        return this.CycleExists(Helper.SafeGuidParse(wishList.ItemId), end, visited);
                     }
                     else
                     {
-                        return true; // back edge exists
+                        //Helper.MyPrint(start.ToString() + " -> " + wishList.ItemId);
+                        return true;
                     }
                 }
+                return false;
             }
-            return false;
         }
+
+        // it returns true if cycle exists other wise false
+        //private bool CycleDetection(Dictionary<string, List<string>> graph, Dictionary<string, bool> visited, string start, string end)
+        //{
+        //    foreach (string edge in graph[start])
+        //    {
+        //        if (edge == end)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            if (visited[edge] == false)
+        //            {
+        //                visited[edge] = true;
+        //                return CycleDetection(graph, visited, edge, end);
+        //            }
+        //            else
+        //            {
+        //                return true; // back edge exists
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
    
 
 
     // true means operation successful, false means operation not successful
-    public bool CheckCycleInWishList(string  parentWish, string childWish)
+    public bool CanAddThisWishToThatWish(string  parentWish, string childWish)
         {
             Guid parentId = Helper.SafeGuidParse(parentWish);
             Guid childId = Helper.SafeGuidParse(childWish);
@@ -336,9 +344,8 @@ namespace TukiTaki_KenaKata.service
             {
                 Helper.MyPrint("New id is invalid");
                 return false;
-            }else if (this.CheckCycle(parentId, childId))
+            }else if (this.CycleExists(parentId, childId, new Dictionary<string, bool>()) || this.CycleExists(childId, parentId, new Dictionary<string, bool>()))
             {
-
                 Helper.MyPrint("Cycle Exists.");
                 return false;
             }

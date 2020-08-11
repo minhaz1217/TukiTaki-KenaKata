@@ -15,6 +15,6 @@ namespace TukiTaki_KenaKata.service
         bool AddItemToWish(string wishIdString, string itemIdString, ItemType itemType);
         bool DeleteWishItem(string wishIdString, string itemIdString);
         bool DeleteWish(string wishIdString);
-        bool CheckCycleInWishList(string parentWish, string childWish);
+        bool CanAddThisWishToThatWish(string parentWish, string childWish);
     }
 }

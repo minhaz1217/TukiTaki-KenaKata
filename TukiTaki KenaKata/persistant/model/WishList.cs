@@ -22,5 +22,9 @@ namespace TukiTaki_KenaKata.persistant.model
             this.WishId = wishId;
             this.ItemType = itemType;
         }
+        public override string ToString()
+        {
+            return $"{this.Id}({this.ItemType}) {this.WishId} -> {this.ItemId}" ;
+        }
     }
 }

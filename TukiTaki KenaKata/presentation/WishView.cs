@@ -140,7 +140,7 @@ namespace TukiTaki_KenaKata.presentation
                         this.ShowAllWish();
                         Console.WriteLine("Enter Wish id:");
                         string newWishIdString = Console.ReadLine().Trim();
-                        if (this.wishService.CheckCycleInWishList(idString, newWishIdString))
+                        if (this.wishService.CanAddThisWishToThatWish(idString, newWishIdString))
                         {
                             this.wishService.AddItemToWish(idString, newWishIdString, ItemType.Wish);
                             Helper.MyPrint("Entered Succesfully.", "g");
