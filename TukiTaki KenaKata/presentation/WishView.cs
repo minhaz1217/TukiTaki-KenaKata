@@ -36,6 +36,10 @@ namespace TukiTaki_KenaKata.presentation
         {
             Console.WriteLine("Enter wish name: ");
             string name = Console.ReadLine().Trim();
+            if (name == "")
+            {
+                Helper.MyPrint("Error: Name can't be empty", "r");
+            }
             Guid wishId = Guid.NewGuid();
             List<WishListItemDTO> items = new List<WishListItemDTO>();
             while (true)
@@ -214,7 +218,7 @@ namespace TukiTaki_KenaKata.presentation
 
                 Console.WriteLine("Enter discout codes, seperated by spaces");
                 string discountKeys = Console.ReadLine().Trim();
-                IDecoratorComponent decorator = wish;
+                IDecoratorComponent decorator = new Discount();
                 foreach (string coupon in discountKeys.Split(" "))
                 {
                     if (coupon != "")
@@ -224,13 +228,17 @@ namespace TukiTaki_KenaKata.presentation
                             if (coupon == "drop10")
                             {
                                 decorator = new Discount10(decorator);
+                                //Helper.MyPrint(decorator.GetPrice().ToString());
                             }
                             else if (coupon == "drop20")
                             {
                                 decorator = new Discount20(decorator);
-                            }else if (coupon == "drop50")
+                                //Helper.MyPrint(decorator.GetPrice().ToString());
+                            }
+                            else if (coupon == "drop50")
                             {
                                 decorator = new Discount50(decorator);
+                                //Helper.MyPrint(decorator.GetPrice().ToString());
                             }
                         }
                         else
@@ -239,6 +247,7 @@ namespace TukiTaki_KenaKata.presentation
                         }
                     }
                 }
+                decorator = new Discount(wish);
                 Helper.MyPrint($"Your total wish will cost {decorator.GetPrice()} taka.", "g");
             }
 

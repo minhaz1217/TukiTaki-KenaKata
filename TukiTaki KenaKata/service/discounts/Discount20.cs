@@ -5,17 +5,15 @@ using TukiTaki_KenaKata.service.model;
 
 namespace TukiTaki_KenaKata.service.discounts
 {
-    class Discount20 : IDiscount
+    class Discount20 : Discount
     {
-        private IDecoratorComponent Component = null;
-        public Discount20(IDecoratorComponent component)
-        {
-            this.Component = component;
+        public Discount20(IDecoratorComponent component) : base(component) {
+            Console.WriteLine("Drop 20");
         }
-        public double GetPrice()
+        public override double GetPrice()
         {
-            Helper.MyPrint($"Discount20 {this.Component.GetPrice()}", "g");
-            return this.Component.GetPrice() * .80;
+            //Helper.MyPrint($"Discount20 {this.Component.GetPrice()}", "g");
+            return base.GetPrice() * .80;
         }
     }
 }
