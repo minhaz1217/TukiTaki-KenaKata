@@ -23,7 +23,8 @@ namespace TukiTaki_KenaKata.presentation
             products = this.productService.GetAllProduct();
             for (int i = 0; i < products.Count; i++)
             {
-                Console.WriteLine(products[i].ToString());
+                products[i].Display();
+                //Console.WriteLine(products[i].ToString());
             }
         }
         public void ViewSingleProduct()
@@ -40,7 +41,8 @@ namespace TukiTaki_KenaKata.presentation
                 ProductDTO product = this.productService.GetSingleProduct(choice);
                 if(product != null)
                 {
-                    Console.WriteLine(product.ToString());
+                    product.Display();
+                    //Console.WriteLine(product.ToString());
                 }
                 else
                 {

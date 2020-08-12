@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TukiTaki_KenaKata.service.model;
 
 namespace TukiTaki_KenaKata.model
 {
-    class ProductDTO
+    class ProductDTO : Component
     {
-        Guid Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
@@ -23,7 +24,7 @@ namespace TukiTaki_KenaKata.model
             this.Price = price;
         }
 
-        public override string ToString()
+        public string ToString()
         {
 
             return $"" +
@@ -32,6 +33,23 @@ namespace TukiTaki_KenaKata.model
                 $"({Helper.MyOutputString(this.Description+ "", "b")}) : " +
                 $"{Helper.MyOutputString(((long)this.Price).ToString() + "", "r")}";
         }
-        
+        public void Display()
+        {
+            Console.WriteLine($"" +
+                $"{Helper.MyOutputString(this.Id.ToString() + "\n", "m")}" +
+                $"{Helper.MyOutputString(this.Name + "", "g")} " +
+                $"({Helper.MyOutputString(this.Description + "", "b")}) : " +
+                $"{Helper.MyOutputString(((long)this.Price).ToString() + "", "r")}");
+        }
+
+        public double GetPrice()
+        {
+            return this.Price;
+        }
+
+        public double GetDiscount()
+        {
+            return 0;
+        }
     }
 }

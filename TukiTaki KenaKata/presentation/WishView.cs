@@ -4,6 +4,8 @@ using System.Text;
 using TukiTaki_KenaKata.model;
 using TukiTaki_KenaKata.service;
 using Autofac;
+using TukiTaki_KenaKata.service.model;
+using TukiTaki_KenaKata.service.discounts;
 
 namespace TukiTaki_KenaKata.presentation
 {
@@ -87,7 +89,7 @@ namespace TukiTaki_KenaKata.presentation
             wishes = this.wishService.GetAllWish();
             for (int i = 0; i < wishes.Count; i++)
             {
-                Console.WriteLine(wishes[i].ToString());
+                wishes[i].Display();
             }
         }
         public void ViewSingleWish()
@@ -102,7 +104,7 @@ namespace TukiTaki_KenaKata.presentation
             }
             else
             {
-                Console.WriteLine(wish.ToString());
+                wish.Display();
             }
         }
         public void UpdateWish()
@@ -200,18 +202,36 @@ namespace TukiTaki_KenaKata.presentation
             Console.WriteLine("Enter Wish list id:");
 
             string wishIdString = Console.ReadLine().Trim();
-            if (this.wishService.WishExists(wishIdString))
+
+            WishDTO wish = this.wishService.GetSingleWish(wishIdString);
+            if (wish != null)
             {
+                double totalWishPrice = 0;
+                foreach (ProductDTO product in wish.Items)
+                {
+                    totalWishPrice += product.Price;
+                }
+
                 Console.WriteLine("Enter discout codes, seperated by spaces");
                 string discountKeys = Console.ReadLine().Trim();
-                double totalDiscount = 0;
-                foreach(string coupon in discountKeys.Split(" "))
+                IDecoratorComponent decorator = wish;
+                foreach (string coupon in discountKeys.Split(" "))
                 {
-                    if(coupon != "")
+                    if (coupon != "")
                     {
                         if (this.coupons.ContainsKey(coupon))
                         {
-                            totalDiscount += this.coupons[coupon];
+                            if (coupon == "drop10")
+                            {
+                                decorator = new Discount10(decorator);
+                            }
+                            else if (coupon == "drop20")
+                            {
+                                decorator = new Discount20(decorator);
+                            }else if (coupon == "drop50")
+                            {
+                                decorator = new Discount50(decorator);
+                            }
                         }
                         else
                         {
@@ -219,25 +239,7 @@ namespace TukiTaki_KenaKata.presentation
                         }
                     }
                 }
-                if(totalDiscount > 1)
-                {
-                    totalDiscount = 1;
-                }
-                WishDTO wish = this.wishService.GetSingleWish(wishIdString);
-                if(wish != null)
-                {
-                    double totalWishPrice = 0;
-                    foreach(ProductDTO product in wish.Products)
-                    {
-                        totalWishPrice += product.Price;
-                    }
-                    Helper.MyPrint($"Your total wish will cost {totalWishPrice - totalWishPrice*totalDiscount} taka.", "g");
-                }
-
-            }
-            else
-            {
-                Helper.MyPrint("Wish doesn't exist.");
+                Helper.MyPrint($"Your total wish will cost {decorator.GetPrice()} taka.", "g");
             }
 
         }

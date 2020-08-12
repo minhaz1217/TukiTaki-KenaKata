@@ -7,6 +7,7 @@ using Autofac;
 using TukiTaki_KenaKata.persistant.model;
 using TukiTaki_KenaKata.service.mapper;
 using System.Linq;
+using TukiTaki_KenaKata.service.model;
 
 namespace TukiTaki_KenaKata.service
 {
@@ -23,10 +24,20 @@ namespace TukiTaki_KenaKata.service
                 db = scope.Resolve<IDBRepository>();
             }
         }
+
+        
         public List<WishDTO> GetAllWish()
         {
             List<Wish> wishes = this.db.GetAllWish();
+            List<Product> allProd= this.db.GetAllProduct();
+            List<WishList> allWishLists = this.db.GetAllWishList();
+            List<ProductDTO> allProducts = new List<ProductDTO>();
+            allProd.ForEach(delegate(Product product)
+            {
+                allProducts.Add(ModelToDTOMapper.ProductMapper(product));
+            });
             List<WishDTO> wishDTOs = new List<WishDTO>();
+
             foreach(Wish wish in wishes)
             {
                 if(Helper.SafeGuidParse(wish.Id) == new Guid())
@@ -35,40 +46,33 @@ namespace TukiTaki_KenaKata.service
                 }
                 else
                 {
-                    List<ProductDTO> products = new List<ProductDTO>();
-                    products.AddRange( this.GetProductListForAWish(wish) );
-                    wishDTOs.Add(new WishDTO(Helper.SafeGuidParse(wish.Id), wish.Name, products));
+                    wishDTOs.Add(this.BuildWish(wish, wishes, allProducts, allWishLists));
                 }
             }
             return wishDTOs;
         }
-        public List<ProductDTO> GetProductListForAWish(Wish wish)
+        public WishDTO BuildWish(Wish wish, List<Wish> allWishes, List<ProductDTO> allProducts, List<WishList> allWishLists)
         {
-            List<ProductDTO> products = new List<ProductDTO>();
-            List<WishList> wishLists = this.db.GetWishListByWish(Helper.SafeGuidParse(wish.Id));
-            foreach(WishList wishlist in wishLists)
+            List<Component> myComponents = new List<Component>();
+            List<WishList> selectedWishList = allWishLists.Where(s => s.WishId == wish.Id).Select(s => s).ToList();
+            foreach (WishList wishlist in selectedWishList)
             {
                 if (wishlist.ItemType == (int)ItemType.Product)
                 {
-                    Product product = this.db.GetSingleProduct(Helper.SafeGuidParse(wishlist.ItemId));
-                    if(product != null)
-                    {
-                        products.Add(ModelToDTOMapper.ProductMapper( product ));
-                    }
+                    myComponents.AddRange(allProducts.Where(s => (s.Id.ToString()) == wishlist.ItemId).Select(s => s).ToList());
                 }
-                else if(wishlist.ItemType == (int)ItemType.Wish)
+                else if (wishlist.ItemType == (int)ItemType.Wish)
                 {
-                    Wish subWish = db.GetSingleWish(Helper.SafeGuidParse(wishlist.ItemId));
-                    if(subWish != null)
-                    {
-                        products.AddRange( GetProductListForAWish( subWish ) );
-                    }
+                    myComponents.Add(this.BuildWish( 
+                        allWishes.Where(s=>s.Id == wishlist.ItemId).Select(s=>s).Single(),
+                        allWishes,allProducts, allWishLists));
                 }
             }
-            return products;
+            return new WishDTO(Helper.SafeGuidParse(wish.Id), wish.Name, myComponents);
         }
         public WishDTO GetSingleWish(string stringId)
         {
+
             Guid wishId = Helper.SafeGuidParse(stringId);
             if (wishId == new Guid())
             {
@@ -77,12 +81,19 @@ namespace TukiTaki_KenaKata.service
             }
             else
             {
+                List<Wish> allWishes = this.db.GetAllWish();
+                List<Product> allProd = this.db.GetAllProduct();
+                List<WishList> allWishLists = this.db.GetAllWishList();
+                List<ProductDTO> allProducts = new List<ProductDTO>();
+                allProd.ForEach(delegate (Product product)
+                {
+                    allProducts.Add(ModelToDTOMapper.ProductMapper(product));
+                });
                 WishDTO wishDTO = new WishDTO(); 
                 Wish wish = this.db.GetSingleWish( Helper.SafeGuidParse(stringId) );
                 if(wish != null)
                 {
-                    List<ProductDTO> products = this.GetProductListForAWish(wish);
-                    return new WishDTO(Helper.SafeGuidParse(wish.Id), wish.Name, products);
+                    return this.BuildWish(wish, allWishes, allProducts, allWishLists);
                 }
             }
             return null;
