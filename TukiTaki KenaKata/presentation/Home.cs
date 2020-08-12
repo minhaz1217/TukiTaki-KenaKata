@@ -35,15 +35,6 @@ namespace TukiTaki_KenaKata.presentation
                 }
 
                 {
-
-
-                    //IContainer container;
-                    //ContainerBuilder builder = new ContainerBuilder();
-
-                    //builder.RegisterType<WishView>().As<IWishView>();
-                    //builder.RegisterType<ProductView>().As<IProductView>();
-                    //container = builder.Build();
-
                     IProductView productsView = null;
                     IWishView wishView = null;
                     using (var scope = DependencyResolver.Instance().BeginLifetimeScope())

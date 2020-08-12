@@ -46,12 +46,12 @@ namespace TukiTaki_KenaKata.service
                 }
                 else
                 {
-                    wishDTOs.Add(this.BuildWish(wish, wishes, allProducts, allWishLists));
+                    wishDTOs.Add(this.GetFullWishWithItems(wish, wishes, allProducts, allWishLists));
                 }
             }
             return wishDTOs;
         }
-        public WishDTO BuildWish(Wish wish, List<Wish> allWishes, List<ProductDTO> allProducts, List<WishList> allWishLists)
+        private WishDTO GetFullWishWithItems(Wish wish, List<Wish> allWishes, List<ProductDTO> allProducts, List<WishList> allWishLists)
         {
             List<Component> myComponents = new List<Component>();
             List<WishList> selectedWishList = allWishLists.Where(s => s.WishId == wish.Id).Select(s => s).ToList();
@@ -63,7 +63,7 @@ namespace TukiTaki_KenaKata.service
                 }
                 else if (wishlist.ItemType == (int)ItemType.Wish)
                 {
-                    myComponents.Add(this.BuildWish( 
+                    myComponents.Add(this.GetFullWishWithItems( 
                         allWishes.Where(s=>s.Id == wishlist.ItemId).Select(s=>s).Single(),
                         allWishes,allProducts, allWishLists));
                 }
@@ -93,7 +93,7 @@ namespace TukiTaki_KenaKata.service
                 Wish wish = this.db.GetSingleWish( Helper.SafeGuidParse(stringId) );
                 if(wish != null)
                 {
-                    return this.BuildWish(wish, allWishes, allProducts, allWishLists);
+                    return this.GetFullWishWithItems(wish, allWishes, allProducts, allWishLists);
                 }
             }
             return null;
@@ -281,17 +281,11 @@ namespace TukiTaki_KenaKata.service
 
 
 
-
-        private string getWishName(string wishidString)
-        {
-            return this.db.GetSingleWish(Helper.SafeGuidParse(wishidString)).Name;
-        }
-        private bool CycleExists(Guid start, Guid end)
+        public bool CycleExists(Guid start, Guid end)
         {
             //Helper.MyPrint($"GOT {start} {end}");
             List<WishList> allWishLists = this.db.GetAllWishList();
             Dictionary<string, List<string>> graph1 = new Dictionary<string, List<string>>();
-            Dictionary<string, List<string>> graph2 = new Dictionary<string, List<string>>();
             this.visited = new Dictionary<string, bool>();
             Dictionary<string, bool> visited2 = new Dictionary<string, bool>();
             graph1[start.ToString()] = new List<string>();
@@ -320,20 +314,12 @@ namespace TukiTaki_KenaKata.service
                 }
             }
             graph1[start.ToString()].Add(end.ToString());
-            //foreach(KeyValuePair<String, List<String> > kv in graph1){
-            //    string str = Helper.MyOutputString(getWishName(kv.Key) + " -> ", "b");
-            //    foreach(string x in kv.Value)
-            //    {
-            //        str += "" + getWishName(x) + "," ;
-            //    }
-            //    Console.WriteLine(str);
-            //}
             foreach (KeyValuePair<String, List<String>> kv in graph1)
             {
                 if (!visited[kv.Key])
                 {
                     //visited[kv.Key] = true;
-                    bool check = CycleDetection(graph1, kv.Key);
+                    bool check = DetectCycleHelper(graph1, kv.Key);
                     if (check == true)
                     {
                         //Helper.MyPrint($"Problem in {kv.Key}");
@@ -345,7 +331,7 @@ namespace TukiTaki_KenaKata.service
         }
 
         // it returns true if cycle exists other wise false
-        private bool CycleDetection(Dictionary<string, List<string>> graph, string start)
+        private bool DetectCycleHelper(Dictionary<string, List<string>> graph, string start)
         {
             //Helper.MyPrint("Start " + this.getWishName(start));
             if (!visited[start])
@@ -353,7 +339,7 @@ namespace TukiTaki_KenaKata.service
                 visited[start] = true;
                 foreach (string edge in graph[start])
                 {
-                    if (visited[edge] == false && CycleDetection(graph, edge))
+                    if (visited[edge] == false && DetectCycleHelper(graph, edge))
                     {
                         return true;
                     }

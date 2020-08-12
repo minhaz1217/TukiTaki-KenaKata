@@ -6,6 +6,7 @@ namespace TukiTaki_KenaKata.persistant.model
 {
     class Wish
     {
+        public const string TABLE_NAME = "wish";
         public const string COL_ID = "id";
         public const string COL_NAME = "name";
 

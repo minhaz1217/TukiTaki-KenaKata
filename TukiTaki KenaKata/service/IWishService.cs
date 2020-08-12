@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TukiTaki_KenaKata.model;
+using TukiTaki_KenaKata.persistant.model;
 
 namespace TukiTaki_KenaKata.service
 {
@@ -15,6 +16,7 @@ namespace TukiTaki_KenaKata.service
         bool AddItemToWish(string wishIdString, string itemIdString, ItemType itemType);
         bool DeleteWishItem(string wishIdString, string itemIdString);
         bool DeleteWish(string wishIdString);
+        bool CycleExists(Guid start, Guid end);
         bool CanAddThisWishToThatWish(string parentWish, string childWish);
     }
 }

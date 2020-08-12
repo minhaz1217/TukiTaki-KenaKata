@@ -29,7 +29,6 @@ namespace TukiTaki_KenaKata.presentation
             this.coupons["drop10"] = .1;
             this.coupons["drop20"] = .2;
             this.coupons["drop50"] = .5;
-            this.coupons["drop100"] = 1;
         }
 
         public void CreateWish()
@@ -39,6 +38,7 @@ namespace TukiTaki_KenaKata.presentation
             if (name == "")
             {
                 Helper.MyPrint("Error: Name can't be empty", "r");
+                return;
             }
             Guid wishId = Guid.NewGuid();
             List<WishListItemDTO> items = new List<WishListItemDTO>();
@@ -191,7 +191,6 @@ namespace TukiTaki_KenaKata.presentation
             {
                 Helper.MyPrint("Wish doesn't exist");
             }
-            Console.WriteLine("DeleteProduct");
         }
         public void ShowAllCoupons()
         {
@@ -218,7 +217,7 @@ namespace TukiTaki_KenaKata.presentation
 
                 Console.WriteLine("Enter discout codes, seperated by spaces");
                 string discountKeys = Console.ReadLine().Trim();
-                IDecoratorComponent decorator = new Discount();
+                IDecoratorComponent decorator = wish;
                 foreach (string coupon in discountKeys.Split(" "))
                 {
                     if (coupon != "")
@@ -247,7 +246,7 @@ namespace TukiTaki_KenaKata.presentation
                         }
                     }
                 }
-                decorator = new Discount(wish);
+                //decorator = new Discount(wish);
                 Helper.MyPrint($"Your total wish will cost {decorator.GetPrice()} taka.", "g");
             }
 

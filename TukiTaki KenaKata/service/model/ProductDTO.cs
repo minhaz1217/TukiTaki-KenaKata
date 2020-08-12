@@ -47,9 +47,10 @@ namespace TukiTaki_KenaKata.model
             return this.Price;
         }
 
-        public double GetDiscount()
+        public double GetSourcePrice()
         {
-            return 0;
+            return this.GetPrice();
         }
+
     }
 }

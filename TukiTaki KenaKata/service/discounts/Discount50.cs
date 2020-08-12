@@ -7,11 +7,14 @@ namespace TukiTaki_KenaKata.service.discounts
 {
     class Discount50 : Discount
     {
-        public Discount50(IDecoratorComponent component) : base(component) { Console.WriteLine("Drop 50"); }
+        public Discount50(IDecoratorComponent component) : base(component)
+        {
+            //Console.WriteLine("Drop 50");
+        }
         public override double GetPrice()
         {
             //Helper.MyPrint($"Discount10 {this.Component.GetPrice()}", "g");
-            return base.GetPrice() * .50;
+            return base.GetPrice() - (base.GetSourcePrice()*.50);
         }
     }
 }

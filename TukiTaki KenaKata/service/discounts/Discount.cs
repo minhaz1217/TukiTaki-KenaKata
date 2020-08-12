@@ -16,7 +16,11 @@ namespace TukiTaki_KenaKata.service.discounts
 
         public virtual double GetPrice()
         {
-            return this.Component.GetPrice();
+            return Component.GetPrice();
+        }
+        public double GetSourcePrice()
+        {
+            return Component.GetSourcePrice();
         }
     }
 }

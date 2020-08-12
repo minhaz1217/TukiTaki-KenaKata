@@ -7,5 +7,6 @@ namespace TukiTaki_KenaKata.service.model
     interface IDecoratorComponent
     {
         double GetPrice();
+        double GetSourcePrice();
     }
 }

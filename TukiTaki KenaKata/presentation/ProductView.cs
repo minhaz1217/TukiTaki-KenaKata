@@ -58,11 +58,26 @@ namespace TukiTaki_KenaKata.presentation
         {
             Console.WriteLine("Enter product name: ");
             string name = Console.ReadLine().Trim();
+            if (name == "")
+            {
+                Helper.MyPrint("Error: Name can't be empty", "r");
+                return;
+            }
             Console.WriteLine("Enter product description: ");
             string description = Console.ReadLine().Trim();
+            if (description == "")
+            {
+                Helper.MyPrint("Error: Description can't be empty", "r");
+                return;
+            }
             Console.WriteLine("Enter product price: ");
             double price = Helper.ReadSafeDouble();
             this.productService.CreateProduct(name, description, price);
+            if (price < 0)
+            {
+                Helper.MyPrint("Error: Price can't be negative", "r");
+                return;
+            }
 
         }
         public void UpdateProduct()
@@ -90,16 +105,31 @@ namespace TukiTaki_KenaKata.presentation
                         case 1:
                             Console.WriteLine("Enter product name: ");
                             string name = Console.ReadLine().Trim();
+                            if (name == "")
+                            {
+                                Helper.MyPrint("Error: Name can't be empty", "r");
+                                return;
+                            }
                             productService.ChangeProductName(choiceString, name);
                             break;
                         case 2:
                             Console.WriteLine("Enter product Description: ");
                             string description = Console.ReadLine().Trim();
+                            if (description == "")
+                            {
+                                Helper.MyPrint("Error: Description can't be empty", "r");
+                                return;
+                            }
                             productService.ChangeProductDescription(choiceString, description);
                             break;
                         case 3:
                             Console.WriteLine("Enter product price: ");
                             double price = Helper.ReadSafeDouble();
+                            if (price < 0)
+                            {
+                                Helper.MyPrint("Error: Price can't be negative.", "r");
+                                return;
+                            }
                             productService.ChangeProductPrice(choiceString, price);
                             break;
                         default:
